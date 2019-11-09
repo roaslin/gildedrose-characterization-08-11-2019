@@ -1,21 +1,8 @@
-import static org.junit.Assert.*;
-
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+
 /*
-    - All items have a SellIn value which denotes the number of days we have to sell the item
-	- All items have a Quality value which denotes how valuable the item is
-	- At the end of each day our system lowers both values for every item
-
-    - Once the sell by date has passed, Quality degrades twice as fast
-	- The Quality of an item is never negative
-	- "Aged Brie" actually increases in Quality the older it gets
-	- The Quality of an item is never more than 50
-	- "Sulfuras", being a legendary item, never has to be sold or decreases in Quality
-	- "Backstage passes", like aged brie, increases in Quality as its SellIn value approaches;
-        Quality increases by 2 when there are 10 days or less and by 3 when there are 5 days or less but
-        Quality drops to 0 after the concert
-
 	This requires an update to our system:
 
 	- "Conjured" items degrade in Quality twice as fast as normal items
@@ -23,11 +10,111 @@ import org.junit.Test;
 public class GildedRoseTest {
 
     @Test
-    public void foo() {
-        Item[] items = new Item[] { new Item("foo", 0, 0) };
+    public void at_the_end_of_each_day_our_system_lowers_both_values_for_every_item() {
+        Item[] items = new Item[]{new Item("foo", 10, 10)};
         GildedRose app = new GildedRose(items);
+
         app.updateQuality();
-        assertEquals("foo", app.items[0].name);
+
+        assertEquals(9, app.items[0].quality);
+        assertEquals(9, app.items[0].sellIn);
     }
 
+    @Test
+    public void once_the_sell_by_date_has_passed_quality_degrades_twice_as_fast() {
+        Item[] items = new Item[]{new Item("foo", 0, 10)};
+        GildedRose app = new GildedRose(items);
+
+        app.updateQuality();
+
+        assertEquals(8, app.items[0].quality);
+    }
+
+    @Test
+    public void the_quality_of_an_item_is_never_negative() {
+        Item[] items = new Item[]{new Item("foo", 0, 0)};
+        GildedRose app = new GildedRose(items);
+
+        app.updateQuality();
+
+        assertEquals(0, app.items[0].quality);
+    }
+
+    @Test
+    public void the_quality_of_an_item_is_never_more_than_50() {
+        Item[] items = new Item[]{new Item("Aged Brie", 10, 50)};
+        GildedRose app = new GildedRose(items);
+
+        app.updateQuality();
+        app.updateQuality();
+
+        assertEquals(50, app.items[0].quality);
+    }
+
+    @Test
+    public void sulfuras_being_a_legendary_item_never_has_to_be_sold() {
+        Item[] items = new Item[]{new Item("Sulfuras, Hand of Ragnaros", 10, 10)};
+        GildedRose app = new GildedRose(items);
+
+        app.updateQuality();
+
+        assertEquals(10, app.items[0].sellIn);
+    }
+
+    @Test
+    public void sulfuras_being_a_legendary_item_never_decreases_in_quality() {
+        Item[] items = new Item[]{new Item("Sulfuras, Hand of Ragnaros", 10, 10)};
+        GildedRose app = new GildedRose(items);
+
+        app.updateQuality();
+
+        assertEquals(10, app.items[0].quality);
+    }
+
+    @Test
+    public void backstage_passes_increases_in_quality_by_three_when_there_are_5_days_or_less() {
+        Item[] items = new Item[]{
+                new Item("Backstage passes to a TAFKAL80ETC concert", 5, 10),
+                new Item("Backstage passes to a TAFKAL80ETC concert", 3, 10)};
+        GildedRose app = new GildedRose(items);
+
+        app.updateQuality();
+
+        assertEquals(13, app.items[0].quality);
+        assertEquals(13, app.items[1].quality);
+    }
+
+    @Test
+    public void backstage_passes_increases_in_quality_by_two_when_there_are_10_days_or_less() {
+        Item[] items = new Item[]{
+                new Item("Backstage passes to a TAFKAL80ETC concert", 10, 10),
+                new Item("Backstage passes to a TAFKAL80ETC concert", 6, 10)};
+        GildedRose app = new GildedRose(items);
+
+        app.updateQuality();
+
+        assertEquals(12, app.items[0].quality);
+        assertEquals(12, app.items[1].quality);
+    }
+
+    @Test
+    public void backstage_passes_quality_drops_to_0_after_the_concert() {
+        Item[] items = new Item[]{new Item("Backstage passes to a TAFKAL80ETC concert", 0, 10)};
+        GildedRose app = new GildedRose(items);
+
+        app.updateQuality();
+
+        assertEquals(0, app.items[0].quality);
+        assertEquals(-1, app.items[0].sellIn);
+    }
+
+    @Test
+    public void aged_brie_actually_increases_by_two_in_quality_when_sell_in_is_less_than_0() {
+        Item[] items = new Item[]{new Item("Aged Brie", 0, 10)};
+        GildedRose app = new GildedRose(items);
+
+        app.updateQuality();
+
+        assertEquals(12, app.items[0].quality);
+    }
 }
