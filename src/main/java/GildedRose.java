@@ -15,33 +15,12 @@ class GildedRose {
             }
 
             if (isAgedBrie(itemName)) {
-                updateAgedBrie(currentItem, itemName);
+                updateAgedBrieItem(currentItem, itemName);
                 continue;
             }
 
             if (isBackstagePasses(itemName)) {
-                if (isQualityLessThan50(currentItem)) {
-                    currentItem.quality = currentItem.quality + 1;
-
-                    if (isBackstagePasses(itemName)) {
-                        if (isSellInLessThan11(currentItem)) {
-                            if (isQualityLessThan50(currentItem)) {
-                                currentItem.quality = currentItem.quality + 1;
-                            }
-                        }
-
-                        if (isSellInLessThan6(currentItem)) {
-                            if (isQualityLessThan50(currentItem)) {
-                                currentItem.quality = currentItem.quality + 1;
-                            }
-                        }
-                    }
-                }
-                decreaseSellIn(currentItem, itemName);
-
-                if (isSellInLessThanZero(currentItem)) {
-                    currentItem.quality = 0;
-                }
+                updateBackstageItem(currentItem, itemName);
                 continue;
             }
 
@@ -49,7 +28,32 @@ class GildedRose {
         }
     }
 
-    private void updateAgedBrie(Item currentItem, String itemName) {
+    private void updateBackstageItem(Item currentItem, String itemName) {
+        if (isQualityLessThan50(currentItem)) {
+            currentItem.quality = currentItem.quality + 1;
+
+            if (isBackstagePasses(itemName)) {
+                if (isSellInLessThan11(currentItem)) {
+                    if (isQualityLessThan50(currentItem)) {
+                        currentItem.quality = currentItem.quality + 1;
+                    }
+                }
+
+                if (isSellInLessThan6(currentItem)) {
+                    if (isQualityLessThan50(currentItem)) {
+                        currentItem.quality = currentItem.quality + 1;
+                    }
+                }
+            }
+        }
+        decreaseSellIn(currentItem, itemName);
+
+        if (isSellInLessThanZero(currentItem)) {
+            currentItem.quality = 0;
+        }
+    }
+
+    private void updateAgedBrieItem(Item currentItem, String itemName) {
         if (isQualityLessThan50(currentItem)) {
             currentItem.quality = currentItem.quality + 1;
         }
