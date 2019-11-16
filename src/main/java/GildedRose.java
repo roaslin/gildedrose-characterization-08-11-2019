@@ -6,8 +6,7 @@ class GildedRose {
     }
 
     public void updateQuality() {
-        for (int i = 0; i < items.length; i++) {
-            Item currentItem = items[i];
+        for (Item currentItem : items) {
             String itemName = currentItem.name;
 
             if (isSulfurasHandOfRagnaros(itemName)) {
