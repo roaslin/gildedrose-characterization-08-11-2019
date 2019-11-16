@@ -67,17 +67,21 @@ class GildedRose {
     }
 
     private void updateRegularItem(Item currentItem, String itemName) {
-        if (currentItem.quality > 0) {
+        if (isQualityGreaterThanZero(currentItem)) {
             currentItem.quality = currentItem.quality - 1;
         }
 
         decreaseSellin(currentItem, itemName);
 
         if (isSellinLessThanZero(currentItem)) {
-            if (currentItem.quality > 0) {
+            if (isQualityGreaterThanZero(currentItem)) {
                 currentItem.quality = currentItem.quality - 1;
             }
         }
+    }
+
+    private boolean isQualityGreaterThanZero(Item currentItem) {
+        return currentItem.quality > 0;
     }
 
     private boolean isSellinLessThan6(Item currentItem) {
