@@ -34,16 +34,7 @@ class GildedRose {
                     }
                 }
             } else {
-                if (currentItem.quality > 0) {
-                    currentItem.quality = currentItem.quality - 1;
-                }
-                decreaseSellIn(currentItem, itemName);
-
-                if (currentItem.sellIn < 0) {
-                    if (currentItem.quality > 0) {
-                        currentItem.quality = currentItem.quality - 1;
-                    }
-                }
+                updateRegularItem(currentItem, itemName);
                 continue;
             }
 
@@ -55,16 +46,24 @@ class GildedRose {
                         currentItem.quality = currentItem.quality + 1;
                     }
                 } else {
-                    if (!isBackstagePasses(itemName)) {
-                        if (currentItem.quality > 0) {
-//                            currentItem.quality = currentItem.quality - 1;
-                        }
-                    } else {
-                        currentItem.quality = currentItem.quality - currentItem.quality;
-                    }
+                    currentItem.quality = currentItem.quality - currentItem.quality;
                 }
             }
         }
+    }
+
+    private void updateRegularItem(Item currentItem, String itemName) {
+        if (currentItem.quality > 0) {
+            currentItem.quality = currentItem.quality - 1;
+        }
+        decreaseSellIn(currentItem, itemName);
+
+        if (currentItem.sellIn < 0) {
+            if (currentItem.quality > 0) {
+                currentItem.quality = currentItem.quality - 1;
+            }
+        }
+        return;
     }
 
     private void decreaseSellIn(Item currentItem, String itemName) {
