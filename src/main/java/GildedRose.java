@@ -14,20 +14,22 @@ class GildedRose {
                 continue;
             }
 
-            if (isAgedBrie(itemName)
-                    || isBackstagePasses(itemName)) {
-                if (currentItem.quality < 50) {
+            if (isAgedBrie(itemName)) {
+                updateAgedBrie(currentItem, itemName);
+                continue;
+            } else if (isBackstagePasses(itemName)) {
+                if (isQualityLessThan50(currentItem)) {
                     currentItem.quality = currentItem.quality + 1;
 
                     if (isBackstagePasses(itemName)) {
-                        if (currentItem.sellIn < 11) {
-                            if (currentItem.quality < 50) {
+                        if (isSellInLessThan11(currentItem)) {
+                            if (isQualityLessThan50(currentItem)) {
                                 currentItem.quality = currentItem.quality + 1;
                             }
                         }
 
-                        if (currentItem.sellIn < 6) {
-                            if (currentItem.quality < 50) {
+                        if (isSellInLessThan6(currentItem)) {
+                            if (isQualityLessThan50(currentItem)) {
                                 currentItem.quality = currentItem.quality + 1;
                             }
                         }
@@ -40,30 +42,54 @@ class GildedRose {
 
             decreaseSellIn(currentItem, itemName);
 
-            if (currentItem.sellIn < 0) {
-                if (isAgedBrie(itemName)) {
-                    if (currentItem.quality < 50) {
-                        currentItem.quality = currentItem.quality + 1;
-                    }
-                } else {
-                    currentItem.quality = currentItem.quality - currentItem.quality;
-                }
+            if (isSellInLessThanZero(currentItem)) {
+
+                currentItem.quality = currentItem.quality - currentItem.quality;
             }
         }
+    }
+
+    private void updateAgedBrie(Item currentItem, String itemName) {
+        if (isQualityLessThan50(currentItem)) {
+            currentItem.quality = currentItem.quality + 1;
+        }
+        decreaseSellIn(currentItem, itemName);
+
+        if (isSellInLessThanZero(currentItem)) {
+            if (isQualityLessThan50(currentItem)) {
+                currentItem.quality = currentItem.quality + 1;
+            }
+        }
+    }
+
+    private boolean isSellInLessThan6(Item currentItem) {
+        return currentItem.sellIn < 6;
+    }
+
+    private boolean isSellInLessThan11(Item currentItem) {
+        return currentItem.sellIn < 11;
+    }
+
+    private boolean isSellInLessThanZero(Item currentItem) {
+        return currentItem.sellIn < 0;
+    }
+
+    private boolean isQualityLessThan50(Item currentItem) {
+        return currentItem.quality < 50;
     }
 
     private void updateRegularItem(Item currentItem, String itemName) {
         if (currentItem.quality > 0) {
             currentItem.quality = currentItem.quality - 1;
         }
+
         decreaseSellIn(currentItem, itemName);
 
-        if (currentItem.sellIn < 0) {
+        if (isSellInLessThanZero(currentItem)) {
             if (currentItem.quality > 0) {
                 currentItem.quality = currentItem.quality - 1;
             }
         }
-        return;
     }
 
     private void decreaseSellIn(Item currentItem, String itemName) {
