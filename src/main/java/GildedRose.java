@@ -37,6 +37,14 @@ class GildedRose {
                 if (currentItem.quality > 0) {
                     currentItem.quality = currentItem.quality - 1;
                 }
+                decreaseSellIn(currentItem, itemName);
+
+                if (currentItem.sellIn < 0) {
+                    if (currentItem.quality > 0) {
+                        currentItem.quality = currentItem.quality - 1;
+                    }
+                }
+                continue;
             }
 
             decreaseSellIn(currentItem, itemName);
@@ -49,7 +57,7 @@ class GildedRose {
                 } else {
                     if (!isBackstagePasses(itemName)) {
                         if (currentItem.quality > 0) {
-                            currentItem.quality = currentItem.quality - 1;
+//                            currentItem.quality = currentItem.quality - 1;
                         }
                     } else {
                         currentItem.quality = currentItem.quality - currentItem.quality;
