@@ -17,7 +17,9 @@ class GildedRose {
             if (isAgedBrie(itemName)) {
                 updateAgedBrie(currentItem, itemName);
                 continue;
-            } else if (isBackstagePasses(itemName)) {
+            }
+
+            if (isBackstagePasses(itemName)) {
                 if (isQualityLessThan50(currentItem)) {
                     currentItem.quality = currentItem.quality + 1;
 
@@ -35,17 +37,15 @@ class GildedRose {
                         }
                     }
                 }
-            } else {
-                updateRegularItem(currentItem, itemName);
+                decreaseSellIn(currentItem, itemName);
+
+                if (isSellInLessThanZero(currentItem)) {
+                    currentItem.quality = 0;
+                }
                 continue;
             }
 
-            decreaseSellIn(currentItem, itemName);
-
-            if (isSellInLessThanZero(currentItem)) {
-
-                currentItem.quality = currentItem.quality - currentItem.quality;
-            }
+            updateRegularItem(currentItem, itemName);
         }
     }
 
