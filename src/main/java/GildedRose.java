@@ -33,22 +33,22 @@ class GildedRose {
             currentItem.quality = currentItem.quality + 1;
 
             if (isBackstagePasses(itemName)) {
-                if (isSellInLessThan11(currentItem)) {
+                if (isSellinLessThan11(currentItem)) {
                     if (isQualityLessThan50(currentItem)) {
                         currentItem.quality = currentItem.quality + 1;
                     }
                 }
 
-                if (isSellInLessThan6(currentItem)) {
+                if (isSellinLessThan6(currentItem)) {
                     if (isQualityLessThan50(currentItem)) {
                         currentItem.quality = currentItem.quality + 1;
                     }
                 }
             }
         }
-        decreaseSellIn(currentItem, itemName);
+        decreaseSellin(currentItem, itemName);
 
-        if (isSellInLessThanZero(currentItem)) {
+        if (isSellinLessThanZero(currentItem)) {
             currentItem.quality = 0;
         }
     }
@@ -57,29 +57,13 @@ class GildedRose {
         if (isQualityLessThan50(currentItem)) {
             currentItem.quality = currentItem.quality + 1;
         }
-        decreaseSellIn(currentItem, itemName);
+        decreaseSellin(currentItem, itemName);
 
-        if (isSellInLessThanZero(currentItem)) {
+        if (isSellinLessThanZero(currentItem)) {
             if (isQualityLessThan50(currentItem)) {
                 currentItem.quality = currentItem.quality + 1;
             }
         }
-    }
-
-    private boolean isSellInLessThan6(Item currentItem) {
-        return currentItem.sellIn < 6;
-    }
-
-    private boolean isSellInLessThan11(Item currentItem) {
-        return currentItem.sellIn < 11;
-    }
-
-    private boolean isSellInLessThanZero(Item currentItem) {
-        return currentItem.sellIn < 0;
-    }
-
-    private boolean isQualityLessThan50(Item currentItem) {
-        return currentItem.quality < 50;
     }
 
     private void updateRegularItem(Item currentItem, String itemName) {
@@ -87,16 +71,32 @@ class GildedRose {
             currentItem.quality = currentItem.quality - 1;
         }
 
-        decreaseSellIn(currentItem, itemName);
+        decreaseSellin(currentItem, itemName);
 
-        if (isSellInLessThanZero(currentItem)) {
+        if (isSellinLessThanZero(currentItem)) {
             if (currentItem.quality > 0) {
                 currentItem.quality = currentItem.quality - 1;
             }
         }
     }
 
-    private void decreaseSellIn(Item currentItem, String itemName) {
+    private boolean isSellinLessThan6(Item currentItem) {
+        return currentItem.sellIn < 6;
+    }
+
+    private boolean isSellinLessThan11(Item currentItem) {
+        return currentItem.sellIn < 11;
+    }
+
+    private boolean isSellinLessThanZero(Item currentItem) {
+        return currentItem.sellIn < 0;
+    }
+
+    private boolean isQualityLessThan50(Item currentItem) {
+        return currentItem.quality < 50;
+    }
+
+    private void decreaseSellin(Item currentItem, String itemName) {
         if (!isSulfurasHandOfRagnaros(itemName)) {
             currentItem.sellIn = currentItem.sellIn - 1;
         }
