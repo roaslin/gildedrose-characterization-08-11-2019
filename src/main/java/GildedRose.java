@@ -10,6 +10,10 @@ class GildedRose {
             Item currentItem = items[i];
             String itemName = currentItem.name;
 
+            if (isSulfurasHandOfRagnaros(itemName)) {
+                continue;
+            }
+
             if (isAgedBrie(itemName)
                     || isBackstagePasses(itemName)) {
                 if (currentItem.quality < 50) {
@@ -31,9 +35,7 @@ class GildedRose {
                 }
             } else {
                 if (currentItem.quality > 0) {
-                    if (!isSulfurasHandOfRagnaros(itemName)) {
-                        currentItem.quality = currentItem.quality - 1;
-                    }
+                    currentItem.quality = currentItem.quality - 1;
                 }
             }
 
@@ -47,9 +49,7 @@ class GildedRose {
                 } else {
                     if (!isBackstagePasses(itemName)) {
                         if (currentItem.quality > 0) {
-                            if (!isSulfurasHandOfRagnaros(itemName)) {
-                                currentItem.quality = currentItem.quality - 1;
-                            }
+                            currentItem.quality = currentItem.quality - 1;
                         }
                     } else {
                         currentItem.quality = currentItem.quality - currentItem.quality;
