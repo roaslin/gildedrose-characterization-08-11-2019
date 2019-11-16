@@ -117,4 +117,16 @@ public class GildedRoseTest {
 
         assertEquals(12, app.items[0].quality);
     }
+
+    @Test
+    public void conjured_item_quality_decreases_twice_as_fast_as_regular_items() {
+
+        Item[] items = new Item[]{new Item("Conjured sword", 5, 10)};
+        GildedRose app = new GildedRose(items);
+
+        app.updateQuality();
+        app.updateQuality();
+
+        assertEquals(6, app.items[0].quality);
+    }
 }

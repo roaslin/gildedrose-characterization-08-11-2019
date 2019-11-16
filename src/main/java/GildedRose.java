@@ -23,8 +23,18 @@ class GildedRose {
                 continue;
             }
 
+            if (itemName.contains("Conjured")) {
+                updateConjuredItems(currentItem);
+                continue;
+            }
+
             updateRegularItem(currentItem, itemName);
         }
+    }
+
+    private void updateConjuredItems(Item currentItem) {
+        currentItem.quality = currentItem.quality - 2;
+        currentItem.sellIn--;
     }
 
     private void updateBackstageItem(Item currentItem, String itemName) {
